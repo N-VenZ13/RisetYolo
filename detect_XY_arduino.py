@@ -19,10 +19,10 @@ def main():
     display_scale = args.display_scale
 
     # **Buka komunikasi serial ke Arduino**
-    # arduino = serial.Serial('COM3', 9600, timeout=1)  # Ganti COM3 dengan port Arduino Anda
+    arduino = serial.Serial('COM4', 9600, timeout=1)  # Ganti COM3 dengan port Arduino Anda
     time.sleep(2)  # Tunggu Arduino siap
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 
@@ -76,7 +76,7 @@ def main():
 
                 # **Kirim data X dan Y ke Arduino**
                 data = f"{x},{y}\n"
-                # arduino.write(data.encode())
+                arduino.write(data.encode())
 
             label = f"{class_names[int(class_id)]} {confidence:.2f}"
             coord_label = f"({int(x_center)}, {int(y_center)})"
@@ -87,7 +87,7 @@ def main():
         # Jika tidak ada bola terdeteksi, kirim koordinat (0,0)
         if not bola_terdeteksi:
             print("Bola tidak terdeteksi, mengirim: X=0, Y=0")
-            # arduino.write("0,0\n".encode())
+            arduino.write("0,0\n".encode())
 
         frame_resized = cv2.resize(frame, (int(frame_width * display_scale), int(frame_height * display_scale)))
         cv2.imshow("YOLOv8 Detection", frame_resized)
@@ -97,7 +97,7 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
-    # arduino.close()  # Tutup komunikasi serial
+    arduino.close()  # Tutup komunikasi serial
 
 if __name__ == "__main__":
     main()

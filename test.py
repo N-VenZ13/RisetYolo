@@ -2,10 +2,10 @@ from ultralytics import YOLO
 import cv2
 
 # Load model (ganti 'best.pt' dengan path file kamu jika perlu)
-model = YOLO("train2.pt")
+model = YOLO("best.pt")
 
 # Buka kamera (0 = default webcam)
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 while True:
     ret, frame = cap.read()
@@ -13,7 +13,7 @@ while True:
         break
 
     # Jalankan deteksi
-    results = model.predict(source=frame, conf=0.5, verbose=False)
+    results = model.predict(source=frame,  verbose=False, imgsz=640)
 
     # Ambil hasil frame dengan anotasi (bounding boxes, label, dsb)
     annotated_frame = results[0].plot()
