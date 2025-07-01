@@ -31,7 +31,7 @@ def main():
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 
     # Load model YOLOv8
-    model = YOLO("best_ball2.pt")
+    model = YOLO("best_ball4.pt")
     box_annotator = sv.BoxAnnotator(thickness=2)
 
     last_sent = ""  # Simpan data terakhir yang dikirim
@@ -102,7 +102,7 @@ def main():
             try:
                 arduino.write(current_data.encode())
                 last_sent = current_data
-                time.sleep(0.02)
+                # time.sleep(0.005)
                 print(f"Dikirim ke Arduino: {current_data.strip()}")
             except Exception as e:
                 print(f"[ERROR Kirim Serial]: {e}")
